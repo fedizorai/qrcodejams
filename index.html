@@ -3,144 +3,52 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Jam Details</title>
+  <title>Game Jam Details</title>
   <style>
     body {
-      font-family: 'Segoe UI', Roboto, Arial, sans-serif;
-      background: #1b1c24;
-      color: #eee;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #111;
+      color: #f0f0f0;
+      padding: 40px;
+      text-align: center;
     }
-
-    .jam-wrapper {
-      background: #2b2d3c;
-      max-width: 460px;
-      width: 100%;
-      border-radius: 14px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-      overflow: hidden;
-      animation: fadeIn 0.4s ease-in-out;
+    .jam-box {
+      background-color: #1c1e26;
+      padding: 25px;
+      border-radius: 12px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 0 15px rgba(140, 94, 255, 0.2);
     }
-
-    .jam-image {
-      width: 100%;
-      height: 200px;
-      background: #333;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .jam-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .jam-content {
-      padding: 24px;
-    }
-
     h1 {
-      font-size: 24px;
-      color: #a78bfa;
-      text-align: center;
-      margin-bottom: 20px;
+      color: #c8a5ff;
+      margin-bottom: 10px;
     }
-
-    .info-item {
-      display: flex;
-      justify-content: space-between;
-      margin: 10px 0;
-      padding: 10px;
-      background: #1e1f29;
-      border-radius: 6px;
-      font-size: 15px;
-    }
-
-    .info-item strong {
-      color: #d0c9ff;
-    }
-
-    .qr-note {
-      text-align: center;
-      font-size: 13px;
-      margin-top: 20px;
+    .jam-meta {
       color: #aaa;
-      background: #252737;
-      padding: 10px;
-      border-radius: 8px;
+      font-size: 1rem;
+      margin: 6px 0;
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .highlight {
+      color: #8f44fd;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <div class="jam-wrapper">
-    <div class="jam-image">
-      <img src="jam-banner.png" alt="Jam Banner"/>
-    </div>
-    <div class="jam-content">
-      <h1 id="jamName">Jam Title</h1>
-
-      <div class="info-item">
-        <strong>📅 Start Date:</strong>
-        <span id="jamDate"></span>
-      </div>
-      <div class="info-item">
-        <strong>📝 Description:</strong>
-        <span id="jamDesc"></span>
-      </div>
-      <div class="info-item">
-        <strong>🏆 Reward:</strong>
-        <span id="jamReward"></span>
-      </div>
-
-      <div class="qr-note">🔗 Scanned from QR Code</div>
-    </div>
+  <div class="jam-box">
+    <h1 id="nom">Game Jam</h1>
+    <div class="jam-meta">📅 Start Date: <span id="date" class="highlight"></span></div>
+    <div class="jam-meta">📍 Description: <span id="lieu" class="highlight"></span></div>
+    <div class="jam-meta">🏆 Reward: <span id="reward" class="highlight"></span></div>
   </div>
 
   <script>
-    function getQueryParams() {
-      const params = new URLSearchParams(window.location.search);
-      return {
-        id: params.get("id"),
-        name: params.get("nom"),
-        date: params.get("date"),
-        description: params.get("lieu"),
-        reward: params.get("places")
-      };
-    }
-
-    function formatDate(dateStr) {
-      if (!dateStr) return "";
-      const d = new Date(dateStr);
-      return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth()+1).padStart(2, '0')}/${d.getFullYear()} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const data = getQueryParams();
-
-      if (data.name) {
-        document.getElementById("jamName").textContent = data.name;
-        document.getElementById("jamDate").textContent = formatDate(data.date);
-        document.getElementById("jamDesc").textContent = data.description;
-        document.getElementById("jamReward").textContent = data.reward;
-      } else {
-        document.querySelector(".jam-content").innerHTML = `
-          <p style="text-align:center; padding:20px; color:#ccc;">
-            ⚠️ No Jam Data Detected.<br/>Scan a valid QR Code.
-          </p>`;
-      }
-    });
+    const params = new URLSearchParams(window.location.search);
+    document.getElementById('nom').textContent = params.get('nom') || 'Unknown Jam';
+    document.getElementById('date').textContent = params.get('date') || 'N/A';
+    document.getElementById('lieu').textContent = params.get('lieu') || 'N/A';
+    document.getElementById('reward').textContent = params.get('reward') || 'N/A';
   </script>
 </body>
 </html>
