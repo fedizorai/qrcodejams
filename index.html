@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails de l'Événement</title>
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .event-wrapper {
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .event-image {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            background: #f8f9fa; /* Couleur de fond si l'image ne charge pas */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .event-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Remplace contain par cover pour un meilleur rendu */
+            object-position: center;
+            display: block;
+        }
+
+        .event-content {
+            padding: 25px;
+            text-align: left;
+        }
+
+        h1 {
+            font-size: 26px;
+            color: #1a73e8;
+            margin: 0 0 20px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+
+        .info-item:hover {
+            background: #e8f0fe;
+        }
+
+        .info-item strong {
+            min-width: 120px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .info-item span {
+            color: #555;
+            flex-grow: 1;
+        }
+
+        .qr-badge {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+            background: #e9ecef;
+            padding: 8px;
+            border-radius: 5px;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 480px) {
+            .event-wrapper {
+                margin: 10px;
+            }
+            h1 { font-size: 22px; }
+            .event-image { height: 150px; }
+            .info-item { flex-direction: column; text-align: center; }
+            .info-item strong { margin-bottom: 5px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="event-wrapper">
+        <div class="event-image">
+            <img src="lev.png" alt="Evenement Image">
+        </div>
+        <div class="event-content">
+            <h1 id="eventNom"></h1>
+            <div class="info-item">
+                <strong>Date :</strong>
+                <span id="eventDate"></span>
+            </div>
+            <div class="info-item">
+                <strong>Lieu :</strong>
+                <span id="eventLieu"></span>
+            </div>
+            <div class="info-item">
+                <strong>Places :</strong>
+                <span id="eventPlaces"></span>
+            </div>
+            <div class="qr-badge">Scanné depuis un QR Code</div>
+        </div>
+    </div>
+
+    <script>
+        function getQueryParams() {
+            let params = new URLSearchParams(window.location.search);
+            return {
+                id: params.get("id"),
+                nom: params.get("nom"),
+                date: params.get("date"),
+                lieu: params.get("lieu"),
+                places: params.get("places")
+            };
+        }
+
+        // Fonction pour formater la date au format dd/mm/yyyy hh:mm
+        function formatDate(dateString) {
+            if (!dateString) return "";
+            const date = new Date(dateString);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            return `${day}/${month}/${year} ${hours}:${minutes}`;
+        }
+
+        let eventData = getQueryParams();
+        console.log("Données reçues :", eventData);
+
+        document.addEventListener("DOMContentLoaded", function () {
+            if (eventData.nom) {
+                document.getElementById("eventNom").textContent = eventData.nom;
+                document.getElementById("eventDate").textContent = formatDate(eventData.date);
+                document.getElementById("eventLieu").textContent = eventData.lieu;
+                document.getElementById("eventPlaces").textContent = eventData.places;
+            } else {
+                document.querySelector(".event-content").innerHTML = 
+                    "<p style='text-align: center;'>Aucune donnée reçue. Veuillez scanner un QR Code valide.</p>";
+            }
+        });
+    </script>
+</body>
+</html>
