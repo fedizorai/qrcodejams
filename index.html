@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Détails de l'Événement</title>
+  <title>Jam Details</title>
   <style>
     body {
       font-family: 'Segoe UI', Roboto, Arial, sans-serif;
-      background: #f4f4f4;
+      background: #1b1c24;
+      color: #eee;
       margin: 0;
       padding: 0;
       display: flex;
@@ -16,38 +17,38 @@
       min-height: 100vh;
     }
 
-    .event-wrapper {
-      background: #fff;
-      max-width: 480px;
+    .jam-wrapper {
+      background: #2b2d3c;
+      max-width: 460px;
       width: 100%;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
       overflow: hidden;
-      animation: fadeIn 0.5s ease-in-out;
+      animation: fadeIn 0.4s ease-in-out;
     }
 
-    .event-image {
+    .jam-image {
       width: 100%;
       height: 200px;
-      background: #ddd;
+      background: #333;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
     }
 
-    .event-image img {
+    .jam-image img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
 
-    .event-content {
+    .jam-content {
       padding: 24px;
     }
 
     h1 {
       font-size: 24px;
-      color: #1a73e8;
+      color: #a78bfa;
       text-align: center;
       margin-bottom: 20px;
     }
@@ -57,22 +58,23 @@
       justify-content: space-between;
       margin: 10px 0;
       padding: 10px;
-      background: #f6f7f9;
+      background: #1e1f29;
       border-radius: 6px;
+      font-size: 15px;
     }
 
     .info-item strong {
-      color: #333;
+      color: #d0c9ff;
     }
 
-    .qr-badge {
+    .qr-note {
       text-align: center;
-      color: #777;
-      margin-top: 20px;
       font-size: 13px;
-      background: #f0f0f0;
-      padding: 8px;
-      border-radius: 5px;
+      margin-top: 20px;
+      color: #aaa;
+      background: #252737;
+      padding: 10px;
+      border-radius: 8px;
     }
 
     @keyframes fadeIn {
@@ -82,27 +84,27 @@
   </style>
 </head>
 <body>
-  <div class="event-wrapper">
-    <div class="event-image">
-      <img src="lev.png" alt="Image de l'événement" />
+  <div class="jam-wrapper">
+    <div class="jam-image">
+      <img src="jam-banner.png" alt="Jam Banner"/>
     </div>
-    <div class="event-content">
-      <h1 id="eventNom">Nom</h1>
+    <div class="jam-content">
+      <h1 id="jamName">Jam Title</h1>
 
       <div class="info-item">
-        <strong>Date :</strong>
-        <span id="eventDate"></span>
+        <strong>📅 Start Date:</strong>
+        <span id="jamDate"></span>
       </div>
       <div class="info-item">
-        <strong>Lieu :</strong>
-        <span id="eventLieu"></span>
+        <strong>📝 Description:</strong>
+        <span id="jamDesc"></span>
       </div>
       <div class="info-item">
-        <strong>Places :</strong>
-        <span id="eventPlaces"></span>
+        <strong>🏆 Reward:</strong>
+        <span id="jamReward"></span>
       </div>
 
-      <div class="qr-badge">🔍 Affiché depuis un QR Code</div>
+      <div class="qr-note">🔗 Scanned from QR Code</div>
     </div>
   </div>
 
@@ -110,10 +112,11 @@
     function getQueryParams() {
       const params = new URLSearchParams(window.location.search);
       return {
-        nom: params.get("nom"),
+        id: params.get("id"),
+        name: params.get("nom"),
         date: params.get("date"),
-        lieu: params.get("lieu"),
-        places: params.get("places"),
+        description: params.get("lieu"),
+        reward: params.get("places")
       };
     }
 
@@ -126,15 +129,15 @@
     document.addEventListener("DOMContentLoaded", () => {
       const data = getQueryParams();
 
-      if (data.nom) {
-        document.getElementById("eventNom").textContent = data.nom;
-        document.getElementById("eventDate").textContent = formatDate(data.date);
-        document.getElementById("eventLieu").textContent = data.lieu;
-        document.getElementById("eventPlaces").textContent = data.places;
+      if (data.name) {
+        document.getElementById("jamName").textContent = data.name;
+        document.getElementById("jamDate").textContent = formatDate(data.date);
+        document.getElementById("jamDesc").textContent = data.description;
+        document.getElementById("jamReward").textContent = data.reward;
       } else {
-        document.querySelector(".event-content").innerHTML = `
-          <p style="text-align:center; padding:20px; color:#555;">
-            🚫 Aucun paramètre reçu.<br/>Veuillez scanner un QR valide.
+        document.querySelector(".jam-content").innerHTML = `
+          <p style="text-align:center; padding:20px; color:#ccc;">
+            ⚠️ No Jam Data Detected.<br/>Scan a valid QR Code.
           </p>`;
       }
     });
