@@ -34,6 +34,12 @@
       from { opacity: 0; transform: translateY(15px); }
       to { opacity: 1; transform: translateY(0); }
     }
+    @keyframes pulse {
+  0% { box-shadow: 0 0 0px rgba(130, 90, 255, 0.4); }
+  50% { box-shadow: 0 0 15px rgba(130, 90, 255, 0.7); }
+  100% { box-shadow: 0 0 0px rgba(130, 90, 255, 0.4); }
+}
+
 
     h1 {
       font-family: 'Orbitron', sans-serif;
@@ -41,6 +47,22 @@
       margin: 10px 0 18px;
       font-size: 1.8rem;
     }
+    .fade-in {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeUp 0.6s ease forwards;
+}
+
+.delay-1 { animation-delay: 0.2s; }
+.delay-2 { animation-delay: 0.4s; }
+.delay-3 { animation-delay: 0.6s; }
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
     .jam-logo {
       width: 80px;
@@ -81,6 +103,8 @@
       transition: background 0.3s ease;
       display: inline-block;
       box-shadow: 0 0 10px rgba(150, 100, 255, 0.15);
+      animation: pulse 2s infinite;
+
     }
 
     .share-btn:hover {
@@ -92,10 +116,12 @@
     }
 
     .qr-preview img {
-      width: 100px;
-      border-radius: 6px;
-      box-shadow: 0 0 8px rgba(255, 255, 255, 0.08);
-    }
+  padding: 8px;
+  background: #222;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.08);
+}
+
 
     .qr-caption {
       color: #aaa;
@@ -107,7 +133,7 @@
 <body>
   <div class="jam-box">
     <!-- Logo -->
-    <img src="assets/img/logo_white.png" alt="Jam Logo" class="jam-logo" />
+    <img src="img/logo_white.png" alt="Jam Logo" class="jam-logo" />
 
     <!-- Title -->
     <h1 id="nom">Game Jam</h1>
