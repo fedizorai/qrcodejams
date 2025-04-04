@@ -8,35 +8,50 @@
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #111;
+      background-color: #0d0d0f;
       color: #f0f0f0;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
       padding: 30px;
+      min-height: 100vh;
     }
 
     .jam-box {
-      background-color: #1e1f29;
+      background-color: rgba(30, 31, 41, 0.95);
       padding: 30px 25px;
-      border-radius: 16px;
+      border-radius: 18px;
       max-width: 480px;
       width: 100%;
-      box-shadow: 0 0 30px rgba(140, 94, 255, 0.15);
+      box-shadow: 0 0 40px rgba(140, 94, 255, 0.2);
       text-align: center;
+      position: relative;
+      backdrop-filter: blur(6px);
+      animation: fadeIn 0.6s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     h1 {
       font-family: 'Orbitron', sans-serif;
       color: #c18bff;
-      margin-bottom: 12px;
+      margin: 10px 0 18px;
       font-size: 1.8rem;
+    }
+
+    .jam-logo {
+      width: 80px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(200, 180, 255, 0.2);
     }
 
     .jam-meta {
       font-size: 1rem;
-      margin: 10px 0;
+      margin: 12px 0;
       color: #ccc;
     }
 
@@ -49,22 +64,86 @@
       font-style: normal;
       font-size: 1.1rem;
     }
+
+    .share-section {
+      margin-top: 25px;
+    }
+
+    .share-btn {
+      background: #4c2aa0;
+      color: #fff;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.3s ease;
+      display: inline-block;
+      box-shadow: 0 0 10px rgba(150, 100, 255, 0.15);
+    }
+
+    .share-btn:hover {
+      background: #6d3aff;
+    }
+
+    .qr-preview {
+      margin-top: 25px;
+    }
+
+    .qr-preview img {
+      width: 100px;
+      border-radius: 6px;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.08);
+    }
+
+    .qr-caption {
+      color: #aaa;
+      font-size: 0.75rem;
+      margin-top: 6px;
+    }
   </style>
 </head>
 <body>
   <div class="jam-box">
+    <!-- Logo -->
+    <img src="assets/img/logo_white.png" alt="Jam Logo" class="jam-logo" />
+
+    <!-- Title -->
     <h1 id="nom">Game Jam</h1>
+
+    <!-- Details -->
     <div class="jam-meta"><span class="emoji">📅</span> Start Date: <span id="date" class="highlight"></span></div>
     <div class="jam-meta"><span class="emoji">📍</span> Description: <span id="lieu" class="highlight"></span></div>
-    <div class="jam-meta"><span class="emoji">🏆</span> Reward: <span id="reward" class="highlight"></span></div>
+    <div class="jam-meta"><span class="emoji">🏆</span> Reward: <span id="reward" class="highlight reward"></span></div>
+
+    <!-- Share Button -->
+    <div class="share-section">
+      <a id="shareLink" class="share-btn" target="_blank">🔗 Share This Jam</a>
+    </div>
+
+    <!-- QR Code Preview -->
+    <div class="qr-preview">
+      <img id="qrPreview" alt="QR Code" />
+      <div class="qr-caption">📲 Scan to revisit this jam</div>
+    </div>
   </div>
 
   <script>
     const params = new URLSearchParams(window.location.search);
+
+    // Fill values
     document.getElementById('nom').textContent = params.get('nom') || 'Unknown Jam';
     document.getElementById('date').textContent = params.get('date') || 'N/A';
     document.getElementById('lieu').textContent = params.get('lieu') || 'N/A';
     document.getElementById('reward').textContent = params.get('reward') || 'N/A';
+
+    // QR Code (mirror)
+    const url = window.location.href;
+    document.getElementById('qrPreview').src = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(url)}`;
+
+    // Share Link
+    document.getElementById('shareLink').href = `https://wa.me/?text=Check%20out%20this%20game%20jam!%20${encodeURIComponent(url)}`;
   </script>
 </body>
 </html>
